@@ -1,0 +1,29 @@
+###
+POST http://localhost:8080/register-bank-account
+Content-Type: application/json
+
+{
+  "aggregateId": "00000000-0000-0000-0000-000000000001",
+  "username": "maksimko",
+  "password": "passwordinko"
+}
+
+###
+GET http://localhost:8080/find-bank-account-registration-date/00000000-0000-0000-0000-000000000001
+Content-Type: application/json
+
+###
+GET http://localhost:8080/find-bank-account-activated-status/00000000-0000-0000-0000-000000000001
+Content-Type: application/json
+
+###
+POST http://localhost:8080/activate-bank-account
+Content-Type: application/json
+
+{
+  "aggregateId": "00000000-0000-0000-0000-000000000001"
+}
+
+###
+GET http://localhost:8080/find-bank-account-activated-status/00000000-0000-0000-0000-000000000001
+Content-Type: application/json
