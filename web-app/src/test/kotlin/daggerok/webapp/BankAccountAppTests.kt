@@ -49,7 +49,7 @@ class BankAccountAppTests @Autowired constructor(@LocalServerPort port: Int, val
         )
 
         // when
-        val response = restTemplate.exchange("/register-bank-account", POST, request, BackAccountAggregate::class.java)
+        val response = restTemplate.exchange<BackAccountAggregate>("/register-bank-account", POST, request)
         logger.info { "response: $response" }
 
         // then
@@ -85,6 +85,28 @@ class BankAccountAppTests @Autowired constructor(@LocalServerPort port: Int, val
     }
 
     @Test
+    @Order(2)
+    fun `should get bank account registration date`() {
+        // given
+        val aggregateId = UUID.fromString("0-0-0-0-1")
+
+        // when
+        val response = restTemplate.exchange<FindBankAccountRegistrationDateResult>(
+            "/find-bank-account-registration-date/{aggregateId}", GET, null,
+            aggregateId.toString()
+        )
+        logger.info { "response: $response" }
+
+        // then
+        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
+
+        // and
+        val findBankAccountRegistrationDateResult = response.body ?: fail("body may not be null")
+        logger.info { "findBankAccountRegistrationDateResult: $findBankAccountRegistrationDateResult" }
+        assertThat(findBankAccountRegistrationDateResult.registeredAt).isBefore(Instant.now())
+    }
+
+    @Test
     @Order(3)
     fun `should activate bank account`() {
         // given
@@ -93,7 +115,7 @@ class BankAccountAppTests @Autowired constructor(@LocalServerPort port: Int, val
         )
 
         // when
-        val response = restTemplate.exchange("/activate-bank-account", POST, request, BackAccountAggregate::class.java)
+        val response = restTemplate.exchange<BackAccountAggregate>("/activate-bank-account", POST, request)
         logger.info { "response: $response" }
 
         // then
@@ -125,28 +147,6 @@ class BankAccountAppTests @Autowired constructor(@LocalServerPort port: Int, val
         val findBankAccountActivatedStateResult = response.body ?: fail("body may not be null")
         logger.info { "findBankAccountActivatedStateResult: $findBankAccountActivatedStateResult" }
         assertThat(findBankAccountActivatedStateResult.activated).isTrue
-    }
-
-    @Test
-    @Order(5)
-    fun `should get bank account registration date`() {
-        // given
-        val aggregateId = UUID.fromString("0-0-0-0-1")
-
-        // when
-        val response = restTemplate.exchange<FindBankAccountRegistrationDateResult>(
-            "/find-bank-account-registration-date/{aggregateId}", GET, null,
-            aggregateId.toString()
-        )
-        logger.info { "response: $response" }
-
-        // then
-        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
-
-        // and
-        val findBankAccountRegistrationDateResult = response.body ?: fail("body may not be null")
-        logger.info { "findBankAccountRegistrationDateResult: $findBankAccountRegistrationDateResult" }
-        assertThat(findBankAccountRegistrationDateResult.registeredAt).isBefore(Instant.now())
     }
 
     companion object : KLogging()
