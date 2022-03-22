@@ -5,7 +5,7 @@ import daggerok.api.event.EventStore
 import java.util.UUID
 import mu.KLogging
 
-class InMemoryEventStore(private val storage: MutableList<DomainEvent<UUID>> = mutableListOf()) :
+class InMemoryEventStore(private val storage: MutableList<DomainEvent<UUID>>) :
     EventStore<UUID, DomainEvent<UUID>> {
 
     override fun append(vararg eventStream: DomainEvent<UUID>) {

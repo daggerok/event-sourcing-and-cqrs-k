@@ -1,5 +1,6 @@
 package daggerok.cliapp
 
+import daggerok.api.event.DomainEvent
 import daggerok.domain.BankAccountRepository
 import daggerok.domain.command.ActivateBankAccountCommand
 import daggerok.domain.command.BankAccountCommandHandler
@@ -17,7 +18,8 @@ class MainTest {
 
     @Test
     fun test() {
-        val eventStore = InMemoryEventStore()
+        val db = mutableListOf<DomainEvent<UUID>>()
+        val eventStore = InMemoryEventStore(db)
         val repository = BankAccountRepository(eventStore)
         val commandHandler = BankAccountCommandHandler(repository)
 

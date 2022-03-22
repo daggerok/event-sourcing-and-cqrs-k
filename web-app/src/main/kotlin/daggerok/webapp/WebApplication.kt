@@ -1,4 +1,4 @@
-package daggerok
+package daggerok.webapp
 
 import daggerok.api.Repository
 import daggerok.api.command.CommandHandler
@@ -7,9 +7,7 @@ import daggerok.api.event.EventStore
 import daggerok.domain.BackAccountAggregate
 import daggerok.domain.BankAccountRepository
 import daggerok.domain.command.ActivateBankAccountCommand
-import daggerok.domain.command.BankAccountCommandHandler
 import daggerok.domain.command.RegisterBankAccountCommand
-import daggerok.domain.event.InMemoryEventStore
 import daggerok.domain.query.FindBankAccountActivatedStateQuery
 import daggerok.domain.query.FindBankAccountActivatedStateQueryHandler
 import daggerok.domain.query.FindBankAccountActivatedStateResult
@@ -19,7 +17,6 @@ import daggerok.domain.query.FindBankAccountRegistrationDateResult
 import java.util.UUID
 import mu.KLogging
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
 import org.springframework.http.HttpStatus
@@ -61,7 +58,7 @@ class BankAccountResource(
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/find-bank-account-activated-status/{aggregateId}")
+    @GetMapping("/find-bank-account-activated-state/{aggregateId}")
     fun findBankAccountActivatedStatus(@PathVariable aggregateId: String): FindBankAccountActivatedStateResult {
         logger.debug { "findBankAccountActivatedStatus($aggregateId)" }
         return findBankAccountActivatedStateQueryHandler
@@ -83,28 +80,11 @@ class BankAccountResource(
 class WebApplication {
 
     @Bean
-    @ConditionalOnMissingBean
-    fun storage(): MutableList<DomainEvent<UUID>> = mutableListOf()
+    fun repository(eventStore: EventStore<UUID, DomainEvent<UUID>>): Repository<UUID, BackAccountAggregate> =
+        BankAccountRepository(eventStore)
+            .also { logger.debug { "repository: $it" } }
 
-    @Bean
-    @ConditionalOnMissingBean
-    fun eventStore(): EventStore<UUID, DomainEvent<UUID>> = InMemoryEventStore(storage())
-
-    @Bean
-    @ConditionalOnMissingBean
-    fun repository(): Repository<UUID, BackAccountAggregate> = BankAccountRepository(eventStore())
-
-    @Bean
-    @ConditionalOnMissingBean
-    fun commandHandler(): CommandHandler<UUID, BackAccountAggregate> = BankAccountCommandHandler(repository())
-
-    @Bean
-    @ConditionalOnMissingBean
-    fun findBankAccountRegistrationDateQueryHandler() = FindBankAccountRegistrationDateQueryHandler(repository())
-
-    @Bean
-    @ConditionalOnMissingBean
-    fun findBankAccountActivatedStateQueryHandler() = FindBankAccountActivatedStateQueryHandler(repository())
+    private companion object : KLogging()
 }
 
 fun main(args: Array<String>) {
