@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>event-sourcing-and-cqrs-k</artifactId>
         <groupId>daggerok</groupId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
+    <packaging>jar</packaging>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>bank-account-domain</artifactId>
+    <artifactId>in-memory-event-store</artifactId>
     <dependencies>
         <dependency>
             <groupId>daggerok</groupId>
             <artifactId>api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>daggerok</groupId>
-            <artifactId>in-memory-event-store</artifactId>
             <version>${project.version}</version>
         </dependency>
         <!---->

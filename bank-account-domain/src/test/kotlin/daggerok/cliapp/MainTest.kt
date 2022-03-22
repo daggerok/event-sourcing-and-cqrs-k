@@ -5,11 +5,11 @@ import daggerok.domain.BankAccountRepository
 import daggerok.domain.command.ActivateBankAccountCommand
 import daggerok.domain.command.BankAccountCommandHandler
 import daggerok.domain.command.RegisterBankAccountCommand
-import daggerok.domain.event.InMemoryEventStore
 import daggerok.domain.query.FindBankAccountActivatedStateQuery
 import daggerok.domain.query.FindBankAccountActivatedStateQueryHandler
 import daggerok.domain.query.FindBankAccountRegistrationDateQuery
 import daggerok.domain.query.FindBankAccountRegistrationDateQueryHandler
+import daggerok.eventsore.inmemory.InMemoryEventStore
 import java.util.UUID
 import mu.KLogging
 import org.junit.jupiter.api.Test

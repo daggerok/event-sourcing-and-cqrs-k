@@ -11,6 +11,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>api</module>
+        <module>event-store/in-memory-event-store</module>
         <module>bank-account-domain</module>
         <module>bank-account-domain-in-memory-support</module>
         <module>web-app</module>

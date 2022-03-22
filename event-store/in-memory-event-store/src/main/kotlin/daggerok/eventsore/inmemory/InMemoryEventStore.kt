@@ -1,4 +1,4 @@
-package daggerok.domain.event
+package daggerok.eventsore.inmemory
 
 import daggerok.api.event.DomainEvent
 import daggerok.api.event.EventStore

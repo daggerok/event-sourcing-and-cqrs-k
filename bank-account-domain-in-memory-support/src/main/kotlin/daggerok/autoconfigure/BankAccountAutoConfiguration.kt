@@ -7,9 +7,9 @@ import daggerok.api.event.EventStore
 import daggerok.domain.BackAccountAggregate
 import daggerok.domain.BankAccountRepository
 import daggerok.domain.command.BankAccountCommandHandler
-import daggerok.domain.event.InMemoryEventStore
 import daggerok.domain.query.FindBankAccountActivatedStateQueryHandler
 import daggerok.domain.query.FindBankAccountRegistrationDateQueryHandler
+import daggerok.eventsore.inmemory.InMemoryEventStore
 import java.util.UUID
 import mu.KLogging
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean

@@ -11,4 +11,7 @@ data class BankAccountRegisteredEvent(
     val registeredAt: Instant,
 ) : DomainEvent<UUID>
 
-data class BankAccountActivatedEvent(override var aggregateId: UUID, val activatedAt: Instant) : DomainEvent<UUID>
+data class BankAccountActivatedEvent(
+    override var aggregateId: UUID,
+    val activatedAt: Instant,
+) : DomainEvent<UUID>
