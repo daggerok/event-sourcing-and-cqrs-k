@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>daggerok</groupId>
-            <artifactId>bank-account-in-memory-support</artifactId>
+            <artifactId>bank-account-domain-in-memory-support</artifactId>
             <version>${project.version}</version>
         </dependency>
         <!---->

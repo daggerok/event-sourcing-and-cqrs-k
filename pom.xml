@@ -11,8 +11,8 @@
     <packaging>pom</packaging>
     <modules>
         <module>api</module>
-        <module>bank-account</module>
-        <module>bank-account-in-memory-support</module>
+        <module>bank-account-domain</module>
+        <module>bank-account-domain-in-memory-support</module>
         <module>web-app</module>
     </modules>
     <modelVersion>4.0.0</modelVersion>
