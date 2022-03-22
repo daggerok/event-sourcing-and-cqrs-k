@@ -14,10 +14,10 @@ import java.util.UUID
 import mu.KLogging
 import org.junit.jupiter.api.Test
 
-class MainTest {
+class CliAppTest {
 
     @Test
-    fun test() {
+    fun main() {
         val db = mutableListOf<DomainEvent<UUID>>()
         val eventStore = InMemoryEventStore(db)
         val repository = BankAccountRepository(eventStore)

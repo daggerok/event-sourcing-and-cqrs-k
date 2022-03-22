@@ -11,10 +11,11 @@
     <packaging>pom</packaging>
     <modules>
         <module>api</module>
-        <module>event-store/in-memory-event-store</module>
-        <module>bank-account-domain</module>
-        <module>bank-account-domain-in-memory-support</module>
-        <module>web-app</module>
+        <module>eventstore/in-memory-event-store</module>
+        <module>domain/bank-account-domain</module>
+        <module>app/cli-app</module>
+        <module>autoconfigure/bank-account-domain-in-memory-support</module>
+        <module>app/web-app</module>
     </modules>
     <modelVersion>4.0.0</modelVersion>
     <groupId>daggerok</groupId>

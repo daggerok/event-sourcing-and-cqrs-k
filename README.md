@@ -9,15 +9,14 @@ setjdk17 ; ./mvnw
 ## Run and test
 
 ```bash
-java -jar web-app/target/*jar
+java -jar app/web-app/target/*jar
 
-http post :8080/register-bank-account \
-              aggregateId=00000000-0000-0000-0000-000000000001 username=maksimko password=passwordinko
+http post :8080/register-bank-account aggregateId=00000000-0000-0000-0000-000000000001 username=maksimko password=pwd
 http get :8080/find-bank-account-registration-date/00000000-0000-0000-0000-000000000001
-http get :8080/find-bank-account-activated-status/00000000-0000-0000-0000-000000000001
+http get :8080/find-bank-account-activated-state/00000000-0000-0000-0000-000000000001
 
 http post :8080/activate-bank-account aggregateId=00000000-0000-0000-0000-000000000001
-http get :8080/find-bank-account-activated-status/00000000-0000-0000-0000-000000000001
+http get :8080/find-bank-account-activated-state/00000000-0000-0000-0000-000000000001
 ```
 
 ## RTFM
