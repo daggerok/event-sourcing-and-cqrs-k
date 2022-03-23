@@ -12,6 +12,7 @@
     <modules>
         <module>api</module>
         <module>eventstore/in-memory-event-store</module>
+        <module>eventstore/mapdb-event-store</module>
         <module>domain/bank-account-domain</module>
         <module>app/cli-app</module>
         <module>autoconfigure/bank-account-domain-in-memory-support</module>
@@ -23,6 +24,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <properties>
         <java.version>17</java.version>
+        <mapdb.version>3.0.8</mapdb.version>
         <kotlin.version>1.6.10</kotlin.version>
         <spring-boot.version>2.6.4</spring-boot.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
