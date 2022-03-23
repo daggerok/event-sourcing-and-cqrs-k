@@ -13,12 +13,13 @@ class BankAccountRepository(private val eventStore: EventStore<UUID, DomainEvent
         logger.debug { "findByAggregateId($aggregateId)" }
         val eventStream = eventStore.load(aggregateId)
         return BackAccountAggregate.rebuild(events = eventStream)
+            .also { it.eventStream.clear() }
     }
 
     override fun save(aggregate: BackAccountAggregate): BackAccountAggregate {
         logger.debug { "save($aggregate)" }
         eventStore.append(*aggregate.eventStream.toTypedArray())
-        return aggregate
+        return aggregate.also { it.eventStream.clear() }
     }
 
     private companion object : KLogging()

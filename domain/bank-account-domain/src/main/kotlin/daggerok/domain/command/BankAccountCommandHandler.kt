@@ -23,19 +23,15 @@ class BankAccountCommandHandler(private val repository: Repository<UUID, BackAcc
         repository
             .also { logger.debug { "handleRegisterBankAccountCommand($command)" } }
             .findByAggregateId(command.aggregateId)
-            .apply { eventStream.clear() }
             .registerBankAccount(command.aggregateId, command.username, command.password)
             .let { repository.save(it) }
-            .apply { eventStream.clear() }
 
     private fun handleActivateBankAccountCommand(command: ActivateBankAccountCommand): BackAccountAggregate =
         repository
             .also { logger.debug { "handleActivateBankAccountCommand($command)" } }
             .findByAggregateId(command.aggregateId)
-            .apply { eventStream.clear() }
             .activateBankAccount(command.aggregateId)
             .let { repository.save(it) }
-            .apply { eventStream.clear() }
 
     private fun handleUnknownCommand(command: Command<UUID>): BackAccountAggregate {
         logger.debug { "handleUnknownCommand($command)" }
