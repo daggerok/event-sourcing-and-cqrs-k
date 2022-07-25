@@ -3,7 +3,7 @@ package daggerok.api.event
 import java.util.UUID
 
 interface EventStore<ID, E : DomainEvent<ID>> {
-    fun append(events: List<DomainEvent<UUID>>) {
+    fun append(events: Collection<DomainEvent<UUID>>) {
         append(*events.toTypedArray())
     }
     fun append(vararg events: DomainEvent<UUID>)
