@@ -21,7 +21,7 @@
         </dependency>
         <dependency>
             <groupId>daggerok</groupId>
-            <artifactId>in-memory-event-store</artifactId>
+            <artifactId>mapdb-event-store</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

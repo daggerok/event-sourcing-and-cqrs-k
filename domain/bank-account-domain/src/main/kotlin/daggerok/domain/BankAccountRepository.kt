@@ -6,7 +6,7 @@ import daggerok.api.event.EventStore
 import java.util.UUID
 import mu.KLogging
 
-class BankAccountRepository(private val eventStore: EventStore<UUID, DomainEvent<UUID>>) :
+class BankAccountRepository(private val eventStore: EventStore<UUID, out DomainEvent<UUID>>) :
     Repository<UUID, BackAccountAggregate> {
 
     override fun findByAggregateId(aggregateId: UUID): BackAccountAggregate {
