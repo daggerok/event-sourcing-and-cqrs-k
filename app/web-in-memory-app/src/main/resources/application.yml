@@ -1,0 +1,8 @@
+spring:
+  output:
+    ansi:
+      enabled: always
+logging:
+  level:
+    web: debug
+    daggerok: debug
