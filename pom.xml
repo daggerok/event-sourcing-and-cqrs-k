@@ -26,7 +26,7 @@
         <java.version>17</java.version>
         <mapdb.version>3.0.8</mapdb.version>
         <kotlin.version>1.6.10</kotlin.version>
-        <spring-boot.version>2.6.4</spring-boot.version>
+        <spring-boot.version>2.7.1</spring-boot.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <kotlin-logging-jvm.version>2.1.21</kotlin-logging-jvm.version>
