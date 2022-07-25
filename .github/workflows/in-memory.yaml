@@ -1,0 +1,42 @@
+name: In memory
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      trigger:
+        description: Type m to trigger manual jobs
+        required: false
+        default: ''
+env:
+  JAVA_VERSION: '17'
+jobs:
+  in-memory:
+    if: github.event.inputs.trigger == ''
+      || !startsWith(github.event.inputs.trigger, 'm')
+      || !startsWith(github.event.inputs.trigger, 'M')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/cache@v3
+        id: java-cache
+        with:
+          path: |
+            ./build
+            ~/.m2/repository
+            !~/.m2/repository/com/gituhb/daggerok
+          key: ${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: ${{ env.JAVA_VERSION }}
+      - run: sudo rm -rf ~/.m2/repository/daggerok
+      - run: cd $GITHUB_WORKSPACE ; ./mvnw clean install ; ./mvnw -f app/web-in-memory-app spring-boot:start
+      - run: sudo apt install httpie -yqq
+      - run: |
+          http --ignore-stdin post :8080/register-bank-account   aggregateId=00000000-0000-0000-0000-000000000001 username=maksimko password=passwordinko
+          http --ignore-stdin  get :8080/find-bank-account-registration-date/00000000-0000-0000-0000-000000000001
+          http --ignore-stdin  get :8080/find-bank-account-activated-state/00000000-0000-0000-0000-000000000001
+          http --ignore-stdin post :8080/activate-bank-account  aggregateId=00000000-0000-0000-0000-000000000001
+          http --ignore-stdin  get :8080/find-bank-account-activated-state/00000000-0000-0000-0000-000000000001
+      - run: cd $GITHUB_WORKSPACE ; ./mvnw -f app/web-in-memory-app spring-boot:stop
