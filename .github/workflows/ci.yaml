@@ -2,7 +2,6 @@ name: CI
 on:
   push:
   pull_request:
-    branches: [ master ]
   workflow_dispatch:
     inputs:
       trigger:
@@ -18,8 +17,8 @@ jobs:
       || !startsWith(github.event.inputs.trigger, 'M')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/cache@v2
+      - uses: actions/checkout@v3
+      - uses: actions/cache@v3
         id: java-cache
         with:
           path: |
@@ -27,8 +26,9 @@ jobs:
             ~/.m2/repository
             !~/.m2/repository/com/gituhb/daggerok
           key: ${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
-      - uses: actions/setup-java@v1
+      - uses: actions/setup-java@v3
         with:
+          distribution: 'temurin'
           java-version: ${{ env.JAVA_VERSION }}
       - run: sudo rm -rf ~/.m2/repository/daggerok
       - run: cd $GITHUB_WORKSPACE ; ./mvnw clean verify -U install
