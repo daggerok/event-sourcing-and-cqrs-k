@@ -5,10 +5,10 @@ See this README on [GitHub pages](https://daggerok.github.io/event-sourcing-and-
 ## Build
 
 ```bash
-setjdk17 ; ./mvnw 
+setjdk 17 ; ./mvnw
 ```
 
-## Run and test
+## Run and test web app
 
 ```bash
 java -jar app/web-app/target/*jar
