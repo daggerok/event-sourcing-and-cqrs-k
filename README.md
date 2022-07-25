@@ -1,5 +1,7 @@
 # Kotlin EventSourcing and CQRS [![CI](https://github.com/daggerok/event-sourcing-and-cqrs-k/actions/workflows/ci.yaml/badge.svg)](https://github.com/daggerok/event-sourcing-and-cqrs-k/actions/workflows/ci.yaml)
 
+See this README on [GitHub pages](https://daggerok.github.io/event-sourcing-and-cqrs-k/)
+
 ## Build
 
 ```bash
