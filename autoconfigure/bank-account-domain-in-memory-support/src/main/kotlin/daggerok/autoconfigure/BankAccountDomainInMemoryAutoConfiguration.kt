@@ -24,7 +24,7 @@ import org.springframework.context.annotation.Lazy
 @Lazy
 @ConditionalOnMissingClass
 @Configuration(proxyBeanMethods = false)
-class BankAccountAutoConfiguration {
+class BankAccountDomainInMemoryAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(MutableList::class, name = ["storage"])
