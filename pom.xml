@@ -15,8 +15,10 @@
         <module>eventstore/mapdb-event-store</module>
         <module>domain/bank-account-domain</module>
         <module>app/cli-in-memory-app</module>
+        <module>app/cli-mapdb-app</module>
         <module>app/cli-app</module>
         <module>autoconfigure/bank-account-domain-in-memory-support</module>
+        <module>autoconfigure/bank-account-domain-mapdb-support</module>
         <module>app/web-in-memory-app</module>
         <module>app/web-app</module>
     </modules>
