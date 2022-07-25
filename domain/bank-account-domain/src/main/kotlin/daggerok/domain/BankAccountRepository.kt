@@ -18,7 +18,7 @@ class BankAccountRepository(private val eventStore: EventStore<UUID, DomainEvent
 
     override fun save(aggregate: BackAccountAggregate): BackAccountAggregate {
         logger.debug { "save($aggregate)" }
-        eventStore.append(*aggregate.eventStream.toTypedArray())
+        eventStore.append(aggregate.eventStream)
         return aggregate.also { it.eventStream.clear() }
     }
 
