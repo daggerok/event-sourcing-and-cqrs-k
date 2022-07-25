@@ -27,7 +27,6 @@
         <dependency>
             <groupId>io.github.microutils</groupId>
             <artifactId>kotlin-logging-jvm</artifactId>
-            <version>${kotlin-logging-jvm.version}</version>
         </dependency>
     </dependencies>
 </project>
