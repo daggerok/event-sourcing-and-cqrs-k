@@ -18,8 +18,16 @@ http get :8080/find-bank-account-registration-date/00000000-0000-0000-0000-00000
 http get :8080/find-bank-account-activated-state/00000000-0000-0000-0000-000000000001
 
 http post :8080/activate-bank-account aggregateId=00000000-0000-0000-0000-000000000001
+http get :8080/find-bank-account-registration-date/00000000-0000-0000-0000-000000000001
 http get :8080/find-bank-account-activated-state/00000000-0000-0000-0000-000000000001
 ```
+
+## TODO
+
+* merge `eventstore/in-memory-event-store` with `domain/bank-account-domain` and update `autoconfigure/bank-account-domain-in-memory-support`
+* implement `domain/bank-account-domain-mapdb` and merge it with `eventstore/mapdb-event-store` and update `autoconfigure/bank-account-domain-mapdb-support`
+* implement `web/web-mapdb-app`
+* add application exception in `api` module and replace all RuntimeExceptions with custom application exceptions
 
 ## RTFM
 

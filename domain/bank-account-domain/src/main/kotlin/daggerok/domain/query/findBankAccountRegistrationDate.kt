@@ -16,9 +16,8 @@ class FindBankAccountRegistrationDateQueryHandler(private val repository: Reposi
     QueryHandler<FindBankAccountRegistrationDateQuery, FindBankAccountRegistrationDateResult> {
 
     override fun handle(query: FindBankAccountRegistrationDateQuery): FindBankAccountRegistrationDateResult =
-        repository
-            .also { logger.debug { "handle($query)" } }
-            .findByAggregateId(query.aggregateId)
+        logger.debug { "handle($query)" }
+            .let { repository.findByAggregateId(query.aggregateId) }
             .let { FindBankAccountRegistrationDateResult(it.state.registeredAt) }
 
     private companion object : KLogging()

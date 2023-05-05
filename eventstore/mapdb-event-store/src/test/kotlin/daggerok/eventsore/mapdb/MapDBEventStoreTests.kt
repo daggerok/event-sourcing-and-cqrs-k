@@ -10,12 +10,14 @@ import java.time.Instant
 import java.util.UUID
 import mu.KLogging
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.mapdb.DBMaker
 import org.mapdb.DataInput2
 import org.mapdb.DataOutput2
 import org.mapdb.serializer.GroupSerializerObjectArray
 
+@DisplayName("MapDBEventStore tests")
 class MapDBEventStoreTests {
 
     val pwd = System.getProperty("user.dir")
@@ -93,5 +95,5 @@ class MapDBEventStoreTests {
         logger.debug { "events 2: $events2" }
     }
 
-    private companion object : KLogging()
+    companion object : KLogging()
 }

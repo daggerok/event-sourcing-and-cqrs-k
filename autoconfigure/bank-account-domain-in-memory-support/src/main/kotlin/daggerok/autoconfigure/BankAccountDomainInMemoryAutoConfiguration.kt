@@ -9,7 +9,7 @@ import daggerok.domain.BankAccountRepository
 import daggerok.domain.command.BankAccountCommandHandler
 import daggerok.domain.query.FindBankAccountActivatedStateQueryHandler
 import daggerok.domain.query.FindBankAccountRegistrationDateQueryHandler
-import daggerok.eventsore.inmemory.InMemoryEventStore
+import daggerok.domain.InMemoryEventStore
 import java.util.UUID
 import mu.KLogging
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
@@ -29,26 +29,26 @@ class BankAccountDomainInMemoryAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(MutableList::class, name = ["storage"])
     fun storage(): MutableList<DomainEvent<UUID>> =
-        mutableListOf<DomainEvent<UUID>>()
-            .also { logger.debug { "storage: $it" } }
+        logger.debug { "storage()" }
+            .let { mutableListOf() }
 
     @Bean
     @ConditionalOnMissingBean(InMemoryEventStore::class, name = ["eventStore", "inMemoryEventStore"])
     fun eventStore(storage: MutableList<DomainEvent<UUID>>): EventStore<UUID, DomainEvent<UUID>> =
-        InMemoryEventStore(storage)
-            .also { logger.debug { "eventStore: $it" } }
+        logger.debug { "InMemoryEventStore(storage=$storage)" }
+            .let { InMemoryEventStore(storage) }
 
     @Bean
     @ConditionalOnMissingBean(BankAccountRepository::class, name = ["repository", "bankAccountRepository"])
     fun repository(eventStore: EventStore<UUID, DomainEvent<UUID>>): Repository<UUID, BackAccountAggregate> =
-        BankAccountRepository(eventStore)
-            .also { logger.debug { "repository: $it" } }
+        logger.debug { "BankAccountRepository(eventStore=$eventStore)" }
+            .let { BankAccountRepository(eventStore) }
 
     @Bean
     @ConditionalOnMissingBean(BankAccountCommandHandler::class, name = ["commandHandler", "bankAccountCommandHandler"])
     fun commandHandler(repository: Repository<UUID, BackAccountAggregate>): CommandHandler<UUID, BackAccountAggregate> =
-        BankAccountCommandHandler(repository)
-            .also { logger.debug { "commandHandler: $it" } }
+        logger.debug { "BankAccountCommandHandler(repository=$repository)" }
+            .let { BankAccountCommandHandler(repository) }
 
     @Bean
     @ConditionalOnMissingBean(
@@ -56,8 +56,8 @@ class BankAccountDomainInMemoryAutoConfiguration {
         name = ["findBankAccountActivatedStateQueryHandler"],
     )
     fun findBankAccountRegistrationDateQueryHandler(repository: Repository<UUID, BackAccountAggregate>) =
-        FindBankAccountRegistrationDateQueryHandler(repository)
-            .also { logger.debug { "findBankAccountRegistrationDateQueryHandler: $it" } }
+        logger.debug { "FindBankAccountRegistrationDateQueryHandler(repository=$repository)" }
+            .let { FindBankAccountRegistrationDateQueryHandler(repository) }
 
     @Bean
     @ConditionalOnMissingBean(
@@ -65,8 +65,8 @@ class BankAccountDomainInMemoryAutoConfiguration {
         name = ["findBankAccountActivatedStateQueryHandler"],
     )
     fun findBankAccountActivatedStateQueryHandler(repository: Repository<UUID, BackAccountAggregate>) =
-        FindBankAccountActivatedStateQueryHandler(repository)
-            .also { logger.debug { "findBankAccountActivatedStateQueryHandler: $it" } }
+        logger.debug { "FindBankAccountActivatedStateQueryHandler(repository=$repository)" }
+            .let { FindBankAccountActivatedStateQueryHandler(repository) }
 
     private companion object : KLogging()
 }

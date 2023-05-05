@@ -21,11 +21,6 @@
         </dependency>
         <dependency>
             <groupId>daggerok</groupId>
-            <artifactId>in-memory-event-store</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>daggerok</groupId>
             <artifactId>bank-account-domain</artifactId>
             <version>${project.version}</version>
         </dependency>

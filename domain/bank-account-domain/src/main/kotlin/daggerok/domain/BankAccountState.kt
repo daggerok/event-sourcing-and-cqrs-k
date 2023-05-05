@@ -17,17 +17,18 @@ data class BankAccountState(
     var activatedAt: Instant = Instant.ofEpochMilli(0),
 ) : State<UUID, DomainEvent<UUID>> {
 
-    override fun mutate(event: DomainEvent<UUID>): State<UUID, DomainEvent<UUID>> {
-        logger.debug { "mutate($event)" }
-        return when (event) {
-            is BankAccountRegisteredEvent -> mutateBankAccountRegisteredEvent(event)
-            is BankAccountActivatedEvent -> mutateBankAccountActivatedEvent(event)
-            else -> mutateUnknownEvent(event)
-        }
-    }
+    override fun mutate(event: DomainEvent<UUID>): State<UUID, DomainEvent<UUID>> =
+        logger.debug { "mutate(event=$event)" }
+            .let {
+                when (event) {
+                    is BankAccountRegisteredEvent -> mutateBankAccountRegisteredEvent(event)
+                    is BankAccountActivatedEvent -> mutateBankAccountActivatedEvent(event)
+                    else -> mutateUnknownEvent(event)
+                }
+            }
 
     private fun mutateBankAccountRegisteredEvent(event: BankAccountRegisteredEvent): State<UUID, DomainEvent<UUID>> {
-        logger.debug { "mutateBankAccountRegisteredEvent($event)" }
+        logger.debug { "mutateBankAccountRegisteredEvent(event=$event)" }
         aggregateId = event.aggregateId
         username = event.username
         password = event.password
@@ -36,16 +37,15 @@ data class BankAccountState(
     }
 
     private fun mutateBankAccountActivatedEvent(event: BankAccountActivatedEvent): State<UUID, DomainEvent<UUID>> {
-        logger.debug { "mutateBankAccountActivatedEvent($event)" }
+        logger.debug { "mutateBankAccountActivatedEvent(event=$event)" }
         activated = true
         activatedAt = event.activatedAt
         return this
     }
 
-    private fun mutateUnknownEvent(event: DomainEvent<UUID>): State<UUID, DomainEvent<UUID>> {
-        logger.debug { "mutateUnknownEvent($event)" }
-        return this
-    }
+    private fun mutateUnknownEvent(event: DomainEvent<UUID>): State<UUID, DomainEvent<UUID>> =
+        logger.debug { "mutateUnknownEvent(event=$event)" }
+            .let { this }
 
     private companion object : KLogging()
 }

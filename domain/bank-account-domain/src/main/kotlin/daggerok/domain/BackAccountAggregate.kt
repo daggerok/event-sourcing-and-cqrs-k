@@ -10,40 +10,39 @@ import mu.KLogging
 
 data class BackAccountAggregate(
     val state: BankAccountState = BankAccountState(),
-    val eventStream: MutableList<DomainEvent<UUID>> = mutableListOf(),
+    val events: MutableList<DomainEvent<UUID>> = mutableListOf(),
 ) : Aggregate<UUID> {
 
-    fun registerBankAccount(aggregateId: UUID, username: String, password: String): BackAccountAggregate {
-        logger.debug { "registerBankAccount($aggregateId, $username, $password)" }
-        if (state.aggregateId == aggregateId) throw RuntimeException("Bank account already registered")
-        return applyEvent(
-            BankAccountRegisteredEvent(
-                aggregateId = aggregateId,
-                username = username,
-                password = password,
-                registeredAt = Instant.now()
-            )
-        )
-    }
+    fun registerBankAccount(aggregateId: UUID, username: String, password: String): BackAccountAggregate =
+        logger.debug { "registerBankAccount(aggregateId=$aggregateId, username=$username, password=$password)" }
+            .also { if (state.aggregateId == aggregateId) throw RuntimeException("Bank account already registered") }
+            .let {
+                BankAccountRegisteredEvent(
+                    aggregateId = aggregateId,
+                    username = username,
+                    password = password,
+                    registeredAt = Instant.now()
+                )
+            }
+            .let(this::applyEvent)
 
-    fun activateBankAccount(aggregateId: UUID): BackAccountAggregate {
-        logger.debug { "activateBankAccount($aggregateId)" }
-        return applyEvent(BankAccountActivatedEvent(aggregateId = aggregateId, activatedAt = Instant.now()))
-    }
+    fun activateBankAccount(aggregateId: UUID): BackAccountAggregate =
+        logger.debug { "activateBankAccount(aggregateId=$aggregateId)" }
+            .let { BankAccountActivatedEvent(aggregateId = aggregateId, activatedAt = Instant.now()) }
+            .let(this::applyEvent)
 
-    private fun applyEvent(domainEvent: DomainEvent<UUID>): BackAccountAggregate {
-        logger.debug { "applyEvent($domainEvent)" }
-        state.mutate(domainEvent)
-        eventStream += domainEvent
-        return this
-    }
+    private fun applyEvent(domainEvent: DomainEvent<UUID>): BackAccountAggregate =
+        logger.debug { "applyEvent(domainEvent=$domainEvent)" }
+            .also { state.mutate(domainEvent) }
+            .also { events += domainEvent }
+            .let { this }
 
     companion object {
         private val logger = KLogging().logger
 
-        fun rebuild(
-            snapshot: BackAccountAggregate = BackAccountAggregate(),
-            events: List<DomainEvent<UUID>> = listOf(),
-        ) = events.fold(snapshot, BackAccountAggregate::applyEvent)
+        fun rebuild(snapshot: BackAccountAggregate = BackAccountAggregate(),
+                    events: List<DomainEvent<UUID>> = listOf()): BackAccountAggregate =
+            logger.debug { "rebuild(snapshot=$snapshot, events=$events)" }
+                .let { events.fold(snapshot, BackAccountAggregate::applyEvent) }
     }
 }

@@ -15,9 +15,8 @@ class FindBankAccountActivatedStateQueryHandler(private val repository: Reposito
     QueryHandler<FindBankAccountActivatedStateQuery, FindBankAccountActivatedStateResult> {
 
     override fun handle(query: FindBankAccountActivatedStateQuery): FindBankAccountActivatedStateResult =
-        repository
-            .also { logger.debug { "handle($query)" } }
-            .findByAggregateId(query.aggregateId)
+        logger.debug { "handle($query)" }
+            .let { repository.findByAggregateId(query.aggregateId) }
             .let { FindBankAccountActivatedStateResult(it.state.activated) }
 
     private companion object : KLogging()

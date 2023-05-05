@@ -34,9 +34,9 @@ jobs:
       - run: cd $GITHUB_WORKSPACE ; ./mvnw clean install ; ./mvnw -f app/web-in-memory-app spring-boot:start
       - run: sudo apt install httpie -yqq
       - run: |
-          http --ignore-stdin post :8080/register-bank-account   aggregateId=00000000-0000-0000-0000-000000000001 username=maksimko password=passwordinko
+          http --ignore-stdin post :8080/register-bank-account aggregateId=00000000-0000-0000-0000-000000000001 username=maksimko password=passwordinko
           http --ignore-stdin  get :8080/find-bank-account-registration-date/00000000-0000-0000-0000-000000000001
           http --ignore-stdin  get :8080/find-bank-account-activated-state/00000000-0000-0000-0000-000000000001
-          http --ignore-stdin post :8080/activate-bank-account  aggregateId=00000000-0000-0000-0000-000000000001
+          http --ignore-stdin post :8080/activate-bank-account aggregateId=00000000-0000-0000-0000-000000000001
           http --ignore-stdin  get :8080/find-bank-account-activated-state/00000000-0000-0000-0000-000000000001
       - run: cd $GITHUB_WORKSPACE ; ./mvnw -f app/web-in-memory-app spring-boot:stop

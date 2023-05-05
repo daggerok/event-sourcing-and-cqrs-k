@@ -1,3 +1,3 @@
 spring:
   application:
-    name: cli-app
+    name: cli-mapdb-app

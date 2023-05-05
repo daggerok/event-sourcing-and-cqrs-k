@@ -9,6 +9,7 @@ import java.time.Instant
 import java.util.UUID
 import mu.KLogging
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.MethodOrderer
 import org.junit.jupiter.api.Order
 import org.junit.jupiter.api.Test
@@ -21,16 +22,17 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.test.web.client.exchange
-import org.springframework.boot.web.server.LocalServerPort
+import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpMethod.GET
 import org.springframework.http.HttpMethod.POST
 import org.springframework.http.HttpStatus
 
 @TestInstance(PER_CLASS)
+@DisplayName("WebApplication tests")
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
-class BankAccountAppTests @Autowired constructor(@LocalServerPort port: Int, val restTemplate: TestRestTemplate) {
+class WebApplicationTests @Autowired constructor(@LocalServerPort port: Int, val restTemplate: TestRestTemplate) {
 
     init {
         logger.info { "restTemplate rootUri: ${restTemplate.rootUri}" }

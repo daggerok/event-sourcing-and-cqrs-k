@@ -18,12 +18,14 @@ import java.nio.file.Paths
 import java.time.Duration
 import java.util.UUID
 import mu.KLogging
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.mapdb.DBMaker
 import org.mapdb.DataInput2
 import org.mapdb.DataOutput2
 import org.mapdb.serializer.GroupSerializerObjectArray
 
+@DisplayName("cli-app test")
 class CliAppTest {
 
     val pwd = System.getProperty("user.dir")
@@ -73,6 +75,7 @@ class CliAppTest {
 
     @Test
     fun main() {
+        // given
         commandHandler.handle(
             RegisterBankAccountCommand(
                 aggregateId = UUID.fromString("0-0-0-0-1"),
@@ -80,17 +83,23 @@ class CliAppTest {
                 password = "Passw0rd123",
             )
         )
+
+        // and
         commandHandler.handle(ActivateBankAccountCommand(aggregateId = UUID.fromString("0-0-0-0-1")))
 
+        // when
         val findBankAccountRegistrationDateQueryHandler = FindBankAccountRegistrationDateQueryHandler(repository)
-        val result1 = findBankAccountRegistrationDateQueryHandler
-            .handle(FindBankAccountRegistrationDateQuery(UUID.fromString("0-0-0-0-01")))
-        logger.debug { result1 }
 
+        // then
+        val result1 = findBankAccountRegistrationDateQueryHandler.handle(FindBankAccountRegistrationDateQuery(UUID.fromString("0-0-0-0-01")))
+        logger.debug { "result1: $result1" }
+
+        // and when
         val findBankAccountActivatedStateQueryHandler = FindBankAccountActivatedStateQueryHandler(repository)
-        val result2 = findBankAccountActivatedStateQueryHandler
-            .handle(FindBankAccountActivatedStateQuery(UUID.fromString("0-0-0-0-1")))
-        logger.debug { result2 }
+
+        // then
+        val result2 = findBankAccountActivatedStateQueryHandler.handle(FindBankAccountActivatedStateQuery(UUID.fromString("0-0-0-0-1")))
+        logger.debug { "result2: $result2" }
     }
 
     companion object : KLogging()

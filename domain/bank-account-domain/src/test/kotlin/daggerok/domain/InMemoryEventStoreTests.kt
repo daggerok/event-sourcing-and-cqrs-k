@@ -1,12 +1,14 @@
-package daggerok.eventsore.inmemory
+package daggerok.domain
 
 import daggerok.api.event.DomainEvent
 import daggerok.api.event.EventStore
 import java.util.UUID
 import mu.KLogging
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
+@DisplayName("InMemoryEventStore tests")
 class InMemoryEventStoreTests {
 
     val storage = mutableListOf<DomainEvent<UUID>>()
@@ -42,5 +44,5 @@ class InMemoryEventStoreTests {
         logger.debug { "events 2: $events2" }
     }
 
-    private companion object : KLogging()
+    companion object : KLogging()
 }

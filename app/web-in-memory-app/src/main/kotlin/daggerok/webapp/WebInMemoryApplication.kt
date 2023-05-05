@@ -1,11 +1,7 @@
 package daggerok.webapp
 
-import daggerok.api.Repository
 import daggerok.api.command.CommandHandler
-import daggerok.api.event.DomainEvent
-import daggerok.api.event.EventStore
 import daggerok.domain.BackAccountAggregate
-import daggerok.domain.BankAccountRepository
 import daggerok.domain.command.ActivateBankAccountCommand
 import daggerok.domain.command.RegisterBankAccountCommand
 import daggerok.domain.query.FindBankAccountActivatedStateQuery
@@ -18,7 +14,6 @@ import java.util.UUID
 import mu.KLogging
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
-import org.springframework.context.annotation.Bean
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.GetMapping
@@ -37,33 +32,29 @@ class BankAccountResource(
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/register-bank-account")
-    fun register(@RequestBody command: RegisterBankAccountCommand): BackAccountAggregate {
-        logger.debug { "register($command)" }
-        return commandHandler.handle(command)
-    }
+    fun register(@RequestBody command: RegisterBankAccountCommand): BackAccountAggregate =
+        logger.debug { "register(command=$command)" }
+            .let { commandHandler.handle(command) }
 
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PostMapping("/activate-bank-account")
-    fun activate(@RequestBody command: ActivateBankAccountCommand): BackAccountAggregate {
-        logger.debug { "activate($command)" }
-        return commandHandler.handle(command)
-    }
+    fun activate(@RequestBody command: ActivateBankAccountCommand): BackAccountAggregate =
+        logger.debug { "activate(command=$command)" }
+            .let { commandHandler.handle(command) }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/find-bank-account-registration-date/{aggregateId}")
-    fun findBankAccountRegistrationDate(@PathVariable aggregateId: String): FindBankAccountRegistrationDateResult {
-        logger.debug { "findBankAccountRegistrationDate($aggregateId)" }
-        return findBankAccountRegistrationDateQueryHandler
-            .handle(FindBankAccountRegistrationDateQuery(UUID.fromString(aggregateId)))
-    }
+    fun findBankAccountRegistrationDate(@PathVariable aggregateId: String): FindBankAccountRegistrationDateResult =
+        logger.debug { "findBankAccountRegistrationDate(aggregateId=$aggregateId)" }
+            .let { FindBankAccountRegistrationDateQuery(UUID.fromString(aggregateId)) }
+            .let(findBankAccountRegistrationDateQueryHandler::handle)
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/find-bank-account-activated-state/{aggregateId}")
-    fun findBankAccountActivatedStatus(@PathVariable aggregateId: String): FindBankAccountActivatedStateResult {
-        logger.debug { "findBankAccountActivatedStatus($aggregateId)" }
-        return findBankAccountActivatedStateQueryHandler
-            .handle(FindBankAccountActivatedStateQuery(UUID.fromString(aggregateId)))
-    }
+    fun findBankAccountActivatedStatus(@PathVariable aggregateId: String): FindBankAccountActivatedStateResult =
+        logger.debug { "findBankAccountActivatedStatus(aggregateId=$aggregateId)" }
+            .let { FindBankAccountActivatedStateQuery(UUID.fromString(aggregateId)) }
+            .let(findBankAccountActivatedStateQueryHandler::handle)
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -77,16 +68,8 @@ class BankAccountResource(
 }
 
 @SpringBootApplication
-class WebApplication {
-
-    @Bean
-    fun repository(eventStore: EventStore<UUID, DomainEvent<UUID>>): Repository<UUID, BackAccountAggregate> =
-        BankAccountRepository(eventStore)
-            .also { logger.debug { "repository: $it" } }
-
-    private companion object : KLogging()
-}
+class WebInMemoryApplication
 
 fun main(args: Array<String>) {
-    runApplication<WebApplication>(*args)
+    runApplication<WebInMemoryApplication>(*args)
 }
