@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: web-mapdb-app
+  output:
+    ansi:
+      enabled: always
+logging:
+  level:
+    web: debug
+    daggerok: debug

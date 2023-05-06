@@ -28,10 +28,10 @@ import org.springframework.http.HttpMethod.POST
 import org.springframework.http.HttpStatus
 
 @TestInstance(PER_CLASS)
-@DisplayName("WebInMemoryApplication tests")
+@DisplayName("WebMapDBApplication tests")
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
-class WebInMemoryApplicationTests @Autowired constructor(val restTemplate: TestRestTemplate) {
+class WebMapDBApplicationTests @Autowired constructor(val restTemplate: TestRestTemplate) {
 
     init {
         logger.info { "restTemplate rootUri: ${restTemplate.rootUri}" }

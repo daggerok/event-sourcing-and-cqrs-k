@@ -117,7 +117,7 @@ class BankAccountDomainMapDbAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(BankAccountRepository::class, name = ["repository", "bankAccountRepository"])
-    fun repository(eventStore: EventStore<UUID, DomainEvent<UUID>>): Repository<UUID, BackAccountAggregate> =
+    fun repository(eventStore: EventStore<UUID, MapBDDomainEvent<UUID>>): Repository<UUID, BackAccountAggregate> =
         logger.debug { "repository(eventStore=$eventStore)" }
             .let { BankAccountRepository(eventStore) }
 
