@@ -9,11 +9,11 @@ import daggerok.api.event.DomainEvent
 import daggerok.api.event.EventStore
 import daggerok.domain.BackAccountAggregate
 import daggerok.domain.BankAccountRepository
+import daggerok.domain.MapDBEventStore
 import daggerok.domain.command.BankAccountCommandHandler
+import daggerok.domain.event.MapBDDomainEvent
 import daggerok.domain.query.FindBankAccountActivatedStateQueryHandler
 import daggerok.domain.query.FindBankAccountRegistrationDateQueryHandler
-import daggerok.eventsore.mapdb.MapBDDomainEvent
-import daggerok.eventsore.mapdb.MapDBEventStore
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.time.Duration

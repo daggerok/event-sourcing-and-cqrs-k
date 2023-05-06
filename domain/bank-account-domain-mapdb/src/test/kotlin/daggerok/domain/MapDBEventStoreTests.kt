@@ -1,32 +1,27 @@
-package daggerok.cliapp
+package daggerok.domain
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import daggerok.api.event.EventStore
-import daggerok.domain.BankAccountRepository
-import daggerok.domain.MapDBEventStore
-import daggerok.domain.command.ActivateBankAccountCommand
-import daggerok.domain.command.BankAccountCommandHandler
-import daggerok.domain.command.RegisterBankAccountCommand
+import daggerok.domain.event.BankAccountActivatedEvent
+import daggerok.domain.event.BankAccountRegisteredEvent
 import daggerok.domain.event.MapBDDomainEvent
-import daggerok.domain.query.FindBankAccountActivatedStateQuery
-import daggerok.domain.query.FindBankAccountActivatedStateQueryHandler
-import daggerok.domain.query.FindBankAccountRegistrationDateQuery
-import daggerok.domain.query.FindBankAccountRegistrationDateQueryHandler
-import java.nio.file.Paths
-import java.time.Duration
 import java.util.UUID
 import mu.KLogging
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.mapdb.DBMaker
 import org.mapdb.DataInput2
 import org.mapdb.DataOutput2
 import org.mapdb.serializer.GroupSerializerObjectArray
+import java.nio.file.Paths
+import java.time.Duration
+import java.time.Instant
 
-@DisplayName("cli-mapdb-app test")
-class CliMapDbAppTest {
+@DisplayName("MapDBEventStore tests")
+class MapDBEventStoreTests {
 
     val pwd = System.getProperty("user.dir")
     val username = System.getProperty("user.name")
@@ -70,36 +65,37 @@ class CliMapDbAppTest {
     }
 
     val eventStore: EventStore<UUID, MapBDDomainEvent<UUID>> = MapDBEventStore(storage)
-    val repository = BankAccountRepository(eventStore)
-    val commandHandler = BankAccountCommandHandler(repository)
+
+    val events = listOf(
+        BankAccountRegisteredEvent(
+            aggregateId = UUID.randomUUID(),
+            username = "daggerok",
+            password = "pwd",
+            registeredAt = Instant.now(),
+        ),
+        BankAccountActivatedEvent(
+            aggregateId = UUID.randomUUID(),
+            activatedAt = Instant.now(),
+        )
+    )
 
     @Test
-    fun main() {
+    fun `should append and load`() {
         // given
-        commandHandler.handle(
-            RegisterBankAccountCommand(
-                aggregateId = UUID.fromString("0-0-0-0-1"),
-                username = "daggerok",
-                password = "Passw0rd123",
-            )
-        )
+        eventStore.append(events.first(), events.last())
+
+        // then
+        val domainEvents = eventStore.loadAll()
+        logger.debug { "domainEvents: $domainEvents" }
+        assertThat(domainEvents).hasSize(2)
 
         // and
-        commandHandler.handle(ActivateBankAccountCommand(aggregateId = UUID.fromString("0-0-0-0-1")))
+        val events1 = eventStore.load(events.first().aggregateId)
+        logger.debug { "events 1: $events1" }
 
-        // when
-        val findBankAccountRegistrationDateQueryHandler = FindBankAccountRegistrationDateQueryHandler(repository)
-
-        // then
-        val result1 = findBankAccountRegistrationDateQueryHandler.handle(FindBankAccountRegistrationDateQuery(UUID.fromString("0-0-0-0-01")))
-        logger.debug { "result1: $result1" }
-
-        // and when
-        val findBankAccountActivatedStateQueryHandler = FindBankAccountActivatedStateQueryHandler(repository)
-
-        // then
-        val result2 = findBankAccountActivatedStateQueryHandler.handle(FindBankAccountActivatedStateQuery(UUID.fromString("0-0-0-0-1")))
-        logger.debug { "result2: $result2" }
+        // and
+        val events2 = eventStore.load(events.last().aggregateId)
+        logger.debug { "events 2: $events2" }
     }
 
     companion object : KLogging()

@@ -11,15 +11,13 @@
     <packaging>pom</packaging>
     <modules>
         <module>api</module>
-        <module>eventstore/mapdb-event-store</module>
         <module>domain/bank-account-domain-in-memory</module>
+        <module>domain/bank-account-domain-mapdb</module>
         <module>app/cli-in-memory-app</module>
         <module>app/cli-mapdb-app</module>
-        <module>app/cli-app</module>
         <module>autoconfigure/bank-account-domain-in-memory-support</module>
         <module>autoconfigure/bank-account-domain-mapdb-support</module>
         <module>app/web-in-memory-app</module>
-        <module>app/web-app</module>
     </modules>
     <modelVersion>4.0.0</modelVersion>
     <groupId>daggerok</groupId>

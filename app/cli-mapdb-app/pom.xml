@@ -16,17 +16,7 @@
     <dependencies>
         <dependency>
             <groupId>daggerok</groupId>
-            <artifactId>api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>daggerok</groupId>
-            <artifactId>mapdb-event-store</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>daggerok</groupId>
-            <artifactId>bank-account-domain-in-memory</artifactId>
+            <artifactId>bank-account-domain-mapdb</artifactId>
             <version>${project.version}</version>
         </dependency>
         <!---->
