@@ -8,7 +8,7 @@
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
-    <description>CLI CQRS application uses event-sourcing API, bank-account-domain and in-memory-event-store</description>
+    <description>CLI CQRS application uses event-sourcing API, bank-account-domain-in-memory and in-memory-event-store</description>
     <name>app/${project.artifactId}</name>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>cli-in-memory-app</artifactId>
@@ -21,7 +21,7 @@
         </dependency>
         <dependency>
             <groupId>daggerok</groupId>
-            <artifactId>bank-account-domain</artifactId>
+            <artifactId>bank-account-domain-in-memory</artifactId>
             <version>${project.version}</version>
         </dependency>
         <!---->
