@@ -16,11 +16,6 @@
     <dependencies>
         <dependency>
             <groupId>daggerok</groupId>
-            <artifactId>api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>daggerok</groupId>
             <artifactId>bank-account-domain-in-memory</artifactId>
             <version>${project.version}</version>
         </dependency>
