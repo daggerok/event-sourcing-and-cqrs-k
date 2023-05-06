@@ -6,7 +6,7 @@
         <artifactId>event-sourcing-and-cqrs-k</artifactId>
         <groupId>daggerok</groupId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../../pom.xml</relativePath>
+        <relativePath>../../../pom.xml</relativePath>
     </parent>
     <description>CLI CQRS application uses event-sourcing API, mapdb-event-store and bank-account-domain-in-memory</description>
     <name>app/${project.artifactId}</name>

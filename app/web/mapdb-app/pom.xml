@@ -6,17 +6,17 @@
         <artifactId>event-sourcing-and-cqrs-k</artifactId>
         <groupId>daggerok</groupId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../../pom.xml</relativePath>
+        <relativePath>../../../pom.xml</relativePath>
     </parent>
     <description>Spring Boot Web MVC REST API CQRS application uses bank-account-domain-in-memory-in-memory-support</description>
     <name>app/${project.artifactId}</name>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>web-in-memory-app</artifactId>
+    <artifactId>web-mapdb-app</artifactId>
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
             <groupId>daggerok</groupId>
-            <artifactId>bank-account-domain-in-memory-support</artifactId>
+            <artifactId>bank-account-domain-mapdb-support</artifactId>
             <version>${project.version}</version>
         </dependency>
         <!--suppress VulnerableLibrariesLocal -->
